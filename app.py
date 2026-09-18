@@ -72,7 +72,8 @@ if st.button("Check writing", type="primary"):
         with st.spinner("Checking..."):
             result = pipeline.process_text(text)
     except Exception as exc:
-        st.error(f"Something went wrong: {exc}")
+        st.exception(exc)
+        #st.error(f"Something went wrong: {exc}")
         st.stop()
 
     st.subheader("Corrected text")

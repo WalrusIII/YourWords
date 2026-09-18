@@ -1,1 +1,6 @@
 .env
+__pycache__/
+*.pyc
+grammar_rules.index
+grammar_rules_meta.json
+.streamlit/secrets.toml
