@@ -104,7 +104,7 @@ class WritingAssistancePipeline:
 
         text_words = set(re.findall(r"\b[\w']+\b", text.lower()))
         pair = re.compile(
-            r"([A-Za-z]+(?:'[A-Za-z]+)?)\s*[-–—>→]+\s*([A-Za-z]+(?:'[A-Za-z]+)?)"
+            r"([A-Za-z]+(?:'[A-Za-z]+)?)\s*[-–—>→]+\s*(.+)$"
         )
 
         cleaned, seen = [], set()
