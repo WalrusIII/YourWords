@@ -22,7 +22,7 @@ Paste in a piece of writing and YourWords returns:
 - a **corrected version** of the text, with the author's tone and word choice left intact;
 - a **word-level before/after diff** showing exactly what changed;
 - the **spelling** and **grammar** issues it found, each explained; and
-- the **grammar rules it retrieved** to inform the check — so the reasoning is transparent, not a black box.
+- the **grammar rules it retrieved** to inform the check, so the reasoning is transparent, not a black box.
 
 It's aimed at the failure modes that trip up generic "rewrite this" prompts: over-eager rewriting that erases voice, and confidently invented "corrections" that don't match the input.
 
@@ -36,18 +36,18 @@ flowchart TD
     B --> C[Verify each flag against the input + dedupe]
     C --> D[2 · Apply spelling fixes only]
     D --> E[Retrieve top-k grammar rules · FAISS vector store]
-    E --> F[3 · Grammar check — grounded in retrieved rules RAG]
-    F --> G[4 · Apply grammar fixes — preserve voice]
+    E --> F[3 · Grammar check: grounded in retrieved rules RAG]
+    F --> G[4 · Apply grammar fixes, preserve voice]
     G --> H[Corrected text + before/after diff]
 ```
 
 A few design decisions worth calling out:
 
-**Retrieval-augmented grammar checking.** Before the grammar stage runs, the text is embedded and matched against a FAISS index of grammar/style rules; the most relevant rules are injected into the grammar prompt. This grounds suggestions in an explicit, inspectable ruleset — and the retrieved rules are surfaced in the UI so you can see what informed each check.
+**Retrieval-augmented grammar checking.** Before the grammar stage runs, the text is embedded and matched against a FAISS index of grammar/style rules; the most relevant rules are injected into the grammar prompt. This grounds suggestions in an explicit, inspectable ruleset and the retrieved rules are surfaced in the UI so you can see what informed each check.
 
-**Hallucination guards.** A language model asked to "list misspellings" will occasionally invent a word that isn't in the text. Every flagged misspelling is verified to actually appear in the input before it's shown or applied, and duplicates are collapsed. Retrieval failures degrade gracefully — if the index is unavailable, the pipeline falls back to a plain grammar check instead of crashing.
+**Hallucination guards.** A language model asked to "list misspellings" will occasionally invent a word that isn't in the text. Every flagged misspelling is verified to actually appear in the input before it's shown or applied, and duplicates are collapsed. Retrieval failures degrade gracefully, and if the index is unavailable, the pipeline falls back to a plain grammar check instead of crashing.
 
-**Determinism.** Generation runs at `temperature=0` so the same input yields the same output — important for a tool people are meant to trust and re-run.
+**Determinism.** Generation runs at `temperature=0` so the same input yields the same output; important for a tool people are meant to trust and re-run.
 
 **Model-agnostic backend.** The pipeline only ever calls `generate_response(messages)`. That function talks to any OpenAI-compatible endpoint, so switching inference providers or models is a config change, not a code change. It also handles a subtlety of hosted *reasoning* models (GPT-OSS): their hidden reasoning is billed against the token budget, so the backend requests low reasoning effort and treats an empty completion as an explicit error rather than a silent "no issues found."
 
@@ -109,6 +109,3 @@ The live version runs on **Streamlit Community Cloud**. To deploy your own:
 
 > **Model note:** hosted model lineups change. If you get a `model_not_found` error, check your provider's current model list and update `LLM_MODEL`. GPT-OSS and other reasoning models are supported; the backend requests low reasoning effort so responses aren't lost to the reasoning budget.
 
-## Context
-
-Originally developed as a two-person academic capstone at San Francisco State University. The architecture, RAG pipeline, agent design, and deployment described here are my own work.
