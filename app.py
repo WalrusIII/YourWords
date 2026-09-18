@@ -19,6 +19,10 @@ from retriever import GrammarRuleRetriever
 
 load_dotenv()
 
+def render_footer():
+    st.divider()
+    st.caption("YourWords AI · Built by [Grady Walworth](https://github.com/WalrusIII) · 2026")
+
 HERE = Path(__file__).parent
 INDEX_PATH = HERE / "grammar_rules.index"
 META_PATH = HERE / "grammar_rules_meta.json"
@@ -93,3 +97,5 @@ if st.button("Check writing", type="primary"):
         with st.expander("Rules the grammar check retrieved (RAG)"):
             for rule in result["retrieved_rules"]:
                 st.write(f"- {rule}")
+
+render_footer()
