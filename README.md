@@ -1,4 +1,4 @@
-# ✍️ YourWords — AI Grammar Assistant
+# ✍️ YourWords: an AI Grammar Assistant that maintains YOUR voice
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-yourwordsai.streamlit.app-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://yourwordsai.streamlit.app/)
 &nbsp;
@@ -105,7 +105,7 @@ The live version runs on **Streamlit Community Cloud**. To deploy your own:
 1. Push the repo to GitHub.
 2. Create a new app on Streamlit Community Cloud pointing at `app.py`.
 3. Add `LLM_API_KEY` (and optionally `LLM_BASE_URL` / `LLM_MODEL`) under the app's **Secrets**.
-4. Make sure the FAISS index is available in the deployed environment — either commit it, or build it on startup — since the app needs it for the retrieval stage.
+4. Make sure the FAISS index is available in the deployed environment — either commit it, or build it on startup, since the app needs it for the retrieval stage.
 
 > **Model note:** hosted model lineups change. If you get a `model_not_found` error, check your provider's current model list and update `LLM_MODEL`. GPT-OSS and other reasoning models are supported; the backend requests low reasoning effort so responses aren't lost to the reasoning budget.
 
