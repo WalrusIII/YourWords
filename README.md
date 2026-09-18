@@ -109,3 +109,5 @@ The live version runs on **Streamlit Community Cloud**. To deploy your own:
 
 > **Model note:** hosted model lineups change. If you get a `model_not_found` error, check your provider's current model list and update `LLM_MODEL`. GPT-OSS and other reasoning models are supported; the backend requests low reasoning effort so responses aren't lost to the reasoning budget.
 
+## Context
+This was originally a project created for a class in San Francisco State University in Google Colab, which has been migrated to GitHub for display
